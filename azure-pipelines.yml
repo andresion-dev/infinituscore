@@ -1,4 +1,5 @@
 trigger:
+
 - main   # dispara quando há commit na branch main
 
 pool:
