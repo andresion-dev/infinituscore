@@ -1,1 +1,1 @@
-# infinituscore
+# Infinitus Core
