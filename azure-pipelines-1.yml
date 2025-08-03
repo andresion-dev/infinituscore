@@ -23,18 +23,19 @@ stages:
           Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse | Select-Object FullName
           Write-Host "======================"
       displayName: 'Listar estrutura completa do repositório'
-
-    - task: PowerShell@2
+    - task: AzureCLI@2
       inputs:
-        targetType: 'inline'
-        script: |
+        azureSubscription: 'AzureServiceConnection'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
           $scriptPath = "$(Build.SourcesDirectory)/Script"
-          Write-Host "Verificando scripts em: $scriptPath"
+          Write-Host "Executando scripts autenticado no Azure..."
 
           $scripts = Get-ChildItem $scriptPath -Filter *.ps1 | Sort-Object Name
           foreach ($script in $scripts) {
               Write-Host "Executando $($script.Name)..."
               & $script.FullName
           }
-        errorActionPreference: 'stop'
-      displayName: 'Executar todos os scripts PowerShell da pasta Script'
+      displayName: 'Executar scripts autenticado via Azure CLI'
+
