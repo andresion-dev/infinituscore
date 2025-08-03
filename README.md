@@ -310,7 +310,7 @@ az network bastion create --name $bastionName --public-ip-address $publicIpBasti
    powershell.exe Remove-Item -Path 'C:\inetpub\wwwroot\iisstart.htm'
    powershell.exe Add-Content -Path 'C:\inetpub\wwwroot\iisstart.htm' -Value $($env:computername)
    ```
-![image](../../images/runcomandwebvm.png)
+![image](images/runcomandwebvm.png)
 
 
 Após a conclusão do passo acima, desaloque a aloque novamente cada vm.
@@ -355,7 +355,7 @@ Após a conclusão do passo acima, desaloque a aloque novamente cada vm.
 
    ```
 
-   ![image](../../images/sitefunc0.png)
+   ![image](images/sitefunc0.png)
 ## Criar DNS Público
 ### Criar Dominio
 Agora vamos criar uma zona DNS pública. Para isso se precisa de um dominio registrado. Caso não tenha um domínio acesse o tutorial [Registrando um domínio freenom](https://ajuda.zievo.com.br/registrando-um-dominio-freenom/).
@@ -403,20 +403,20 @@ Agora que você tem uma zona DNS de teste com um registro 'A', é necessária al
 + Caso não esteja logado, faça o login
 + Na aba **Services**, selecione "My Domains".
 
-  ![image](../../images/mydomains.png)
+  ![image](images/mydomains.png)
 
 + Selecione "Manage Domain".
 
-  ![image](../../images/managedomains.png)
+  ![image](images/managedomains.png)
 
 + Na aba **Management Tools", selecione **NameServers**
 
 Altere os nameservers com os valores gerados na criação da zona. Caso tenha fechado o cloud shell, se pode encontrar o nameservers dentro do serviço DNS no portal.
 
-  ![image](../../images/nameservers0.png)
+  ![image](images/nameservers0.png)
 
 
-  ![image](../../images/nameservers.png)
+  ![image](images/nameservers.png)
 
   
 
@@ -427,7 +427,7 @@ Você deve ver algo semelhante à tela a seguir:
 
 O nome do host, que nesse exemplo é "www.infinituscore.com" resolve para o ip publico do application gateway, conforme configurado. Esse resultado verifica que a resolução do nome está funcionando corretamente.
 
-![image](../../images/sitefunc.png)
+![image](images/sitefunc.png)
 
 ## Criar DDos
 Agora vamos criar um plano DDoS.
@@ -451,15 +451,15 @@ Após a criação do DDos, iremos habilitalo. Dentro do portal, entre na vnet, n
 
 Verifique se já esta habiltado. Se não estiver Habite.
 
-![image](../../images/ddos0.png)
+![image](images/ddos0.png)
 
 Caso aconteça como no exemplo de não aparecer como opção, vá ate o recursso DDOS para obter o ID do recurso.
 
-![image](../../images/ddos1.png)
+![image](images/ddos1.png)
 
 Selecione a caixa **I know my Resource ID**, cole o ID e click em save.
 
-![image](../../images/ddos3.png)
+![image](images/ddos3.png)
 
 Pronto seu DDoS foi criado e atribuido.
 
