@@ -413,8 +413,6 @@ Agora que você tem uma zona DNS de teste com um registro 'A', é necessária al
 
 Altere os nameservers com os valores gerados na criação da zona. Caso tenha fechado o cloud shell, se pode encontrar o nameservers dentro do serviço DNS no portal.
 
-  ![image](images/nameservers0.png)
-
 
   ![image](images/nameservers.png)
 
