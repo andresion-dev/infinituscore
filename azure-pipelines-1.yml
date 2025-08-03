@@ -2,18 +2,17 @@ trigger:
   branches:
     include:
       - main
+
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 steps:
-- task: AzureCLI@2
+- task: PowerShell@2
   inputs:
-    azureSubscription: 'AzureServiceConnection'
-    scriptType: 'ps'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
+    targetType: 'inline'
+    script: |
       Get-ChildItem "$(Build.SourcesDirectory)/main/scripts" -Filter *.ps1 |
       ForEach-Object {
-        Write-Output "Executando $($_.Name)..."
-        & $_.FullName
+          Write-Host "Executando $($_.Name)..."
+          & $_.FullName
       }
