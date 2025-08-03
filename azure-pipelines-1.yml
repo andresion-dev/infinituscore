@@ -6,13 +6,35 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Write-Host "======================"
-      Write-Host "Estrutura da árvore do repositório:"
-      Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse | Select-Object FullName
-      Write-Host "======================"
-  displayName: 'Listar estrutura completa do repositório'
+stages:
+- stage: ExecutarScripts
+  displayName: 'Executar Scripts PowerShell do Projeto'
+  jobs:
+  - job: ExecutarTodosScripts
+    displayName: 'Executar .ps1 da pasta Script/'
+    steps:
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "======================"
+          Write-Host "Estrutura da árvore do repositório:"
+          Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse | Select-Object FullName
+          Write-Host "======================"
+      displayName: 'Listar estrutura completa do repositório'
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          $scriptPath = "$(Build.SourcesDirectory)/Script"
+          Write-Host "Verificando scripts em: $scriptPath"
+
+          $scripts = Get-ChildItem $scriptPath -Filter *.ps1 | Sort-Object Name
+          foreach ($script in $scripts) {
+              Write-Host "Executando $($script.Name)..."
+              & $script.FullName
+          }
+        errorActionPreference: 'stop'
+      displayName: 'Executar todos os scripts PowerShell da pasta Script'
