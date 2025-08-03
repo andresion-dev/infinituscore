@@ -5,8 +5,6 @@ Ele está em construção, seguem os recursos que iremos precisar de uma forma m
 
 
 ## Diagrama de Arquitetura
-![image](../images/arquiteturaNTier.png)
-https://github.com/andresion-dev/infinituscore/tree/main/images
 ![image](https://github.com/andresion-dev/infinituscore/tree/main/images/arquiteturaNTier.png)
 ## Roteiro
 
