@@ -11,19 +11,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Conteúdo da raiz do repositório:"
+      Write-Host "======================"
+      Write-Host "Estrutura da árvore do repositório:"
       Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse | Select-Object FullName
-    displayName: 'Listar estrutura do repositório'
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      $scriptPath = "$(Build.SourcesDirectory)/Script/"
-      Write-Host "Verificando scripts em: $scriptPath"
-      dir $scriptPath
-
-      Get-ChildItem "$scriptPath" -Filter *.ps1 | ForEach-Object {
-          Write-Host "Executando $($_.Name)..."
-          & $_.FullName
-      }
-    displayName: 'Executar todos os scripts PowerShell da pasta'
+      Write-Host "======================"
+  displayName: 'Listar estrutura completa do repositório'
