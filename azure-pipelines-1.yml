@@ -11,6 +11,13 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      Write-Host "Conteúdo da raiz do repositório:"
+      Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse | Select-Object FullName
+    displayName: 'Listar estrutura do repositório'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
       $scriptPath = "$(Build.SourcesDirectory)/main/scripts"
       Write-Host "Verificando scripts em: $scriptPath"
       dir $scriptPath
