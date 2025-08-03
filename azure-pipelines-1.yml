@@ -2,17 +2,18 @@ trigger:
   branches:
     include:
       - main
-
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: PowerShell@2
+- task: AzureCLI@2
   inputs:
-    targetType: 'filePath'
-    filePath: '$(Build.SourcesDirectory)/main/Script/01-deploy-Criar grupo de recursos.ps1'
-
-- task: PowerShell@2
-  inputs:
-    targetType: 'filePath'
-    filePath: '$(Build.SourcesDirectory)/main/Script/02-deploy-Criar vnet e a subnet do Application Gateway.ps1'
+    azureSubscription: 'AzureServiceConnection'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      Get-ChildItem "$(Build.SourcesDirectory)/main/scripts" -Filter *.ps1 |
+      ForEach-Object {
+        Write-Output "Executando $($_.Name)..."
+        & $_.FullName
+      }
