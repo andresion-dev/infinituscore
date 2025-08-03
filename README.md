@@ -5,7 +5,7 @@ Ele está em construção, seguem os recursos que iremos precisar de uma forma m
 
 
 ## Diagrama de Arquitetura
-![image](https://github.com/andresion-dev/infinituscore/tree/main/images/arquiteturaNTier.png)
+![image](images/arquiteturaNTier.png)
 ## Roteiro
 
 + Criar Grupo de Recursos
