@@ -5,7 +5,7 @@ Ele está em construção, seguem os recursos que iremos precisar de uma forma m
 
 
 ## Diagrama de Arquitetura
-![image](../../images/arquiteturaNTier.png)
+![image](../../../images/arquiteturaNTier.png)
 
 
 ## Roteiro
