@@ -18,7 +18,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $scriptPath = "$(Build.SourcesDirectory)/main/scripts"
+      $scriptPath = "$(Build.SourcesDirectory)/main/Script/"
       Write-Host "Verificando scripts em: $scriptPath"
       dir $scriptPath
 
