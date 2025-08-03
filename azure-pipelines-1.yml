@@ -11,7 +11,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Get-ChildItem "$(Build.SourcesDirectory)/main/scripts" -Filter *.ps1 |
+      Get-ChildItem "$(Build.SourcesDirectory)/main/Script" -Filter *.ps1 |
       ForEach-Object {
           Write-Host "Executando $($_.Name)..."
           & $_.FullName
