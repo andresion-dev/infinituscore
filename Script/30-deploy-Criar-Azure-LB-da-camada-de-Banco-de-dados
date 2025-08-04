@@ -1,3 +1,4 @@
+  #!/bin/bash
   $resourceGroup = "rg-ntier"
   $vNetName = "vnet-ntier"
   $subnetDataName = "subnet-data"
@@ -14,3 +15,4 @@
   --frontend-ip-name $frontendIpName `
   --backend-pool-name $backendPoolName
  
+
