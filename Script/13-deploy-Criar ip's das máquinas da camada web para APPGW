@@ -1,3 +1,4 @@
+#!/bin/bash
 $resourceGroup = "rg-ntier"
 $vm1WebName = "vmWebNTier1"
 $vm2WebName = "vmWebNTier2"
