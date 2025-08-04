@@ -1,3 +1,4 @@
+#!/bin/bash
 $location= "eastus"
 $resourceGroup = "rg-ntier"
 $nsgADDS = "nsgADDS"
