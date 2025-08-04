@@ -1,4 +1,3 @@
-#!/bin/bash
 $resourceGroup = "rg-ntier"
 $vNetName = "vnet-ntier"
 $subnetADDSName = "subnet-adds"
