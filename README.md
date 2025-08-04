@@ -1,8 +1,14 @@
 
 Visão Geral
-Bem vindo(a) a esse repositório. Ele tem como objetivo trazer o projeto TCT da empresa Infinitus implementável no Microsoft Azure. 
-Ele está em construção, seguem os recursos que iremos precisar de uma forma mais prática.
+Bem-vindo(a) ao repositório do projeto TCT - DevOps da empresa Infinitus. Este repositório tem como finalidade disponibilizar a infraestrutura do projeto TCT de forma automatizada e implementável no Microsoft Azure, utilizando práticas modernas de DevOps.
 
+Estamos adotando uma abordagem híbrida de versionamento e integração contínua, com os seguintes recursos:
+
+    GitHub: Utilizado para o versionamento colaborativo dos scripts e templates de infraestrutura como código (IaC).
+
+    Azure Repos: Armazena o código interno e pipelines organizacionais.
+
+    Azure Pipelines: Realiza a automação do provisionamento e gerenciamento da infraestrutura em múltiplos ambientes, com gatilhos CI/CD baseados em PRs e tags.
 
 ## Diagrama de Arquitetura
 ![image](images/arquiteturaNTier.png)
