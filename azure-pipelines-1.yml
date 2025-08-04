@@ -14,63 +14,63 @@ stages:
   jobs:
   - job: Create_RG_VNet_Subnets
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/01-deploy-Criar grupo de recursos.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/02-deploy-Criar vnet e a subnet do Application Gateway.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/03-deploy-Criar subnet de gerenciamento.ps1'
         azurePowerShellVersion: 'LatestVersion'
 
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/01-deploy-Criar grupo de recursos.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/02-deploy-Criar vnet e a subnet do Application Gateway.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/03-deploy-Criar subnet de gerenciamento.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/04-deploy-Criar subnet Web.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/05-deploy-Criar subnet Business.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/06-deploy-Criar subnet Data.ps1'
         azurePowerShellVersion: 'LatestVersion'
   
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -82,19 +82,19 @@ stages:
   jobs:
   - job: Create_NSGs_And_Associate
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/08-deploy-Criar NSGs.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/09-deploy-Criando regras para os NSG.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -106,7 +106,7 @@ stages:
   jobs:
   - job: Run_Deploy_Bastion
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -118,19 +118,19 @@ stages:
   jobs:
   - job: Run_Deploy_Web_Layer
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/12-deploy-Criar máquinas virtuais da camada web.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: "Script/13-deploy-Criar ip's das máquinas da camada web para APPGW.ps1"
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -142,13 +142,13 @@ stages:
   jobs:
   - job: Run_Configure_DNS
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/15-deploy-Criar uma zona DNS.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -160,7 +160,7 @@ stages:
   jobs:
   - job: Run_Enable_DDoS
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -172,37 +172,38 @@ stages:
   jobs:
   - job: Run_Deploy_Business_Layer
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/18-deploy-Criar o recurso do balanceador de carga.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/19-deploy-Criar uma investigação de integridade.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/20-deploy-Criar uma regra de balanceador de carga.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/21-deploy-Criar máquinas virtuais da camada Business.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/22-deploy-Adicionar VMs ao pool de back-end.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -213,55 +214,57 @@ stages:
   jobs:
   - job: Run_Deploy_Data_Layer
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/24-deploy-Criar o recurso de LB da camada de Banco de Dados.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/25-deploy-Criar a investigação de integridade.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/26-deploy-Criar uma regra de LB.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/30-deploy-Criar Azure LB da camada de Banco de dados.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/31-deploy-Criar a investigação de integridade.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/32-deploy-Criar uma regra de balanceador de carga.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/34-deploy-Criar VMs da camada de Banco de Dados.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/35-deploy-Adicionar VMs ao pool de back-end.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
@@ -272,7 +275,7 @@ stages:
   jobs:
   - job: Run_Deploy_ADDS
     steps:
-    - task: AzurePowerShell@5
+    - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
