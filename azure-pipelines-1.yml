@@ -4,7 +4,12 @@ trigger:
       - main
 
 variables:
-  applicationGatewayIp: '128.203.104.178'  # <-- Substitua aqui pelo IP real do App Gateway
+- name: dnsResourceGroup
+  value: 'rg-ntier'
+- name: dnsZoneName
+  value: 'infinituscore.com'
+- name: dnsRecordSet
+  value: 'www'
 
 pool:
   vmImage: 'windows-latest'
@@ -28,18 +33,34 @@ stages:
       displayName: 'Listar estrutura completa do repositório'
 
     - task: AzureCLI@2
+      name: GetAppGwIp
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptType: 'ps'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          $scriptPath = "$(Build.SourcesDirectory)/Script"
-          $ip = "$(applicationGatewayIp)"
-          $targetScript = Join-Path $scriptPath "16-deploy-Criar um registro DNS.ps1"
+          $publicIp = az network public-ip show `
+            --resource-group rg-ntier `
+            --name appGatewayPublicIp `
+            --query "ipAddress" `
+            --output tsv
+          Write-Host "##vso[task.setvariable variable=applicationGatewayIp]$publicIp"
+          Write-Host "IP público capturado: $publicIp"
+      displayName: 'Obter IP público do Application Gateway'
 
-          Write-Host "Executando script de DNS com IP: $ip"
-          & $targetScript $ip
-  
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          $scriptPath = "$(Build.SourcesDirectory)/Script/16-deploy-Criar um registro DNS.ps1"
+          & $scriptPath `
+            -ip "$(applicationGatewayIp)" `
+            -resourceGroup "$(dnsResourceGroup)" `
+            -zoneName "$(dnsZoneName)" `
+            -recordSetName "$(dnsRecordSet)"
+      displayName: 'Criar registro DNS com IP do App Gateway'
 
     - task: AzureCLI@2
       inputs:
