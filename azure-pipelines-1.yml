@@ -16,23 +16,66 @@ stages:
     steps:
     - task: AzurePowerShell@5
       inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
+        azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/01-deploy-Criar grupo de recursos.ps1'
         azurePowerShellVersion: 'LatestVersion'
     - task: AzurePowerShell@5
       inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
+        azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/02-deploy-Criar vnet e a subnet do Application Gateway.ps1'
         azurePowerShellVersion: 'LatestVersion'
     - task: AzurePowerShell@5
       inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
+        azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/03-deploy-Criar subnet de gerenciamento.ps1'
         azurePowerShellVersion: 'LatestVersion'
-    # Continue com os scripts 04, 05, 06, 07...
+
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/01-deploy-Criar grupo de recursos.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/02-deploy-Criar vnet e a subnet do Application Gateway.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/03-deploy-Criar subnet de gerenciamento.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/04-deploy-Criar subnet Web.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/05-deploy-Criar subnet Business.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/06-deploy-Criar subnet Data.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+  
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/07-deploy-Criar subnet Entra ID.ps1'
+        azurePowerShellVersion: 'LatestVersion'
 
 - stage: Configure_NSGs
   dependsOn: Deploy_Network
@@ -41,19 +84,19 @@ stages:
     steps:
     - task: AzurePowerShell@5
       inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
+        azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/08-deploy-Criar NSGs.ps1'
         azurePowerShellVersion: 'LatestVersion'
     - task: AzurePowerShell@5
       inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
+        azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: 'Script/09-deploy-Criando regras para os NSG.ps1'
         azurePowerShellVersion: 'LatestVersion'
     - task: AzurePowerShell@5
       inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
+        azureSubscription: 'AzureServiceConnection'
         ScriptType: 'FilePath'
         ScriptPath: "Script/10-deploy-Associar os NSG's às subnets.ps1"
         azurePowerShellVersion: 'LatestVersion'
