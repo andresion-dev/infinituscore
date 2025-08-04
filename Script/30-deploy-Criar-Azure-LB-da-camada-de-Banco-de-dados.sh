@@ -1,0 +1,18 @@
+  #!/bin/bash
+  $resourceGroup = "rg-ntier"
+  $vNetName = "vnet-ntier"
+  $subnetDataName = "subnet-data"
+  $lbName = "lbData"
+  $frontendIpName = "frontEndData"
+  $backendPoolName = "backEndPoolData"
+  
+  az network lb create `
+  --resource-group $resourceGroup `
+  --name $lbName `
+  --sku Standard `
+  --vnet-name $vNetName `
+  --subnet $subnetDataName `
+  --frontend-ip-name $frontendIpName `
+  --backend-pool-name $backendPoolName
+ 
+

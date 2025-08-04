@@ -1,0 +1,23 @@
+#!/bin/bash
+$resourceGroup = "rg-ntier"
+$vNetName = "vnet-ntier"
+$subnetBusinessName = "subnet-business"
+$lbName = "lbBusiness"
+$frontendIpName = "frontEndBusiness"
+$backendPoolName = "backEndPoolBusiness"
+$probeLbBusinessName = "healthProbeBusiness"
+$ruleLbBusinessName= "httpRuleBusiness"
+
+
+az network lb rule create `
+--resource-group $resourceGroup `
+--lb-name $lbName `
+--name $ruleLbBusinessName `
+--protocol tcp `
+--frontend-port 80 `
+--backend-port 80 `
+--frontend-ip-name $frontendIpName `
+--backend-pool-name $backendPoolName `
+--probe-name $probeLbBusinessName `
+--idle-timeout 15 `
+--enable-tcp-reset true

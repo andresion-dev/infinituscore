@@ -1,0 +1,18 @@
+#!/bin/bash
+for ($i = 1; $i -lt 4 ; $i++)
+{
+   $resourceGroup = "rg-ntier"
+   $lbName = "lbBusiness"
+   $backendPoolName = "backEndPoolBusiness"
+   $nicName = "vmBusiNTier"+$i+"VMNic"
+   $ipConfigName = "ipconfigvmBusiNTier$i"
+
+
+   az network nic ip-config address-pool add `
+   --address-pool $backendPoolName `
+   --ip-config-name $ipConfigName `
+   --nic-name $nicName `
+   --resource-group $resourceGroup `
+   --lb-name $lbName
+}
+      
