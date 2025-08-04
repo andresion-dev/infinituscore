@@ -17,6 +17,7 @@ stages:
   jobs:
   - job: Create_RG_VNet_Subnets
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -72,6 +73,7 @@ stages:
   jobs:
   - job: Create_NSGs_And_Associate
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -99,6 +101,7 @@ stages:
   jobs:
   - job: Run_Deploy_Bastion
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -112,6 +115,7 @@ stages:
   jobs:
   - job: Run_Deploy_Web_Layer
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -139,6 +143,7 @@ stages:
   jobs:
   - job: Run_Configure_DNS
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -159,6 +164,7 @@ stages:
   jobs:
   - job: Run_Enable_DDoS
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -172,6 +178,7 @@ stages:
   jobs:
   - job: Run_Deploy_Business_Layer
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -220,6 +227,7 @@ stages:
   jobs:
   - job: Run_Deploy_Data_Layer
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
@@ -317,6 +325,7 @@ stages:
   jobs:
   - job: Run_Deploy_ADDS
     steps:
+    - checkout: self
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
