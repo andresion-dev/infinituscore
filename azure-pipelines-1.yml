@@ -2,239 +2,59 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   location: 'eastus'
   resourceGroup: 'rg-ntier'
   vNetName: 'vnet-ntier'
-  addressPrefixVNet: '10.5.0.0/16'
 
 stages:
-- stage: Provision_Network
+- stage: Deploy_Network
   jobs:
-  - job: Create_RG_and_VNet
+  - job: Create_RG_VNet_Subnets
     steps:
-    - task: AzureCLI@2
+    - task: AzurePowerShell@5
       inputs:
         azureSubscription: 'Seu-Servico-Conexao'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az group create --name $(resourceGroup) --location $(location)
-
-          az network vnet create `
-            --resource-group $(resourceGroup) `
-            --name $(vNetName) `
-            --address-prefix $(addressPrefixVNet) `
-            --location $(location) `
-            --subnet-name subnet-apg `
-            --subnet-prefix 10.5.0.0/24
-
-          # Subnets adicionais
-          $subnets = @(
-            @{name="AzureBastionSubnet"; prefix="10.5.254.0/27"},
-            @{name="subnet-web"; prefix="10.5.1.0/24"},
-            @{name="subnet-business"; prefix="10.5.2.0/24"},
-            @{name="subnet-data"; prefix="10.5.3.0/24"},
-            @{name="subnet-adds"; prefix="10.5.4.0/24"}
-          )
-          foreach ($subnet in $subnets) {
-            az network vnet subnet create --address-prefix $subnet.prefix --name $subnet.name --resource-group $(resourceGroup) --vnet-name $(vNetName)
-          }
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/01-deploy-Criar grupo de recursos.ps1'
         azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'Seu-Servico-Conexao'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/02-deploy-Criar vnet e a subnet do Application Gateway.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'Seu-Servico-Conexao'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/03-deploy-Criar subnet de gerenciamento.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    # Continue com os scripts 04, 05, 06, 07...
 
 - stage: Configure_NSGs
-  dependsOn: Provision_Network
+  dependsOn: Deploy_Network
   jobs:
-  - job: Create_NSGs_and_Rules
+  - job: Create_NSGs_And_Associate
     steps:
-    - task: AzureCLI@2
+    - task: AzurePowerShell@5
       inputs:
         azureSubscription: 'Seu-Servico-Conexao'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $resourceGroup = "$(resourceGroup)"
-          $location = "$(location)"
-          $nsgs = @("nsgApg", "nsgWeb", "nsgBusiness", "nsgData", "nsgADDS")
-
-          foreach ($nsg in $nsgs) {
-            az network nsg create --resource-group $resourceGroup --name $nsg --location $location
-          }
-
-          # Regras para NSG Apg
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgApg" --name Allow-HTTP --access Allow --protocol Tcp --direction Inbound --priority 100 --source-address-prefix Internet --destination-port-range 80 --destination-address-prefix "*"
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgApg" --name Gateway --access Allow --protocol Tcp --direction Inbound --priority 101 --source-address-prefix GatewayManager --destination-port-range 65200-65535 --destination-address-prefix "*"
-
-          # Regras NSG Web
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgWeb" --name AllowBastion --access Allow --protocol Tcp --direction Inbound --priority 110 --source-address-prefix "10.5.254.0/27" --destination-port-range 3389 --destination-address-prefix "*"
-
-          # Regras NSG Business
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgBusiness" --name AllowBastion --access Allow --protocol Tcp --direction Inbound --priority 110 --source-address-prefix "10.5.254.0/27" --destination-port-range 3389 --destination-address-prefix "*"
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgBusiness" --name AllowBusiness --access Allow --protocol Tcp --direction Inbound --priority 100 --source-address-prefix "10.5.1.0/24" --destination-address-prefix "10.5.2.0/24" --destination-port-range 80
-
-          # Regras NSG Data
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgData" --name AllowRDP --access Allow --protocol Tcp --direction Inbound --priority 1000 --source-address-prefix "10.5.4.0/24" --destination-address-prefix "10.5.3.0/24" --destination-port-range 3389
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgData" --name MSSQLRule --access Allow --protocol Tcp --direction Inbound --priority 1001 --source-address-prefix "10.5.2.0/24" --destination-port-range 1433 --destination-address-prefix "*"
-
-          # Regras NSG ADDS
-          az network nsg rule create --resource-group $resourceGroup --nsg-name "nsgADDS" --name AllowBastion --access Allow --protocol Tcp --direction Inbound --priority 110 --source-address-prefix "10.5.254.0/27" --destination-port-range 3389 --destination-address-prefix "*"
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/08-deploy-Criar NSGs.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'Seu-Servico-Conexao'
+        ScriptType: 'FilePath'
+        ScriptPath: 'Script/09-deploy-Criando regras para os NSG.ps1'
+        azurePowerShellVersion: 'LatestVersion'
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: 'Seu-Servico-Conexao'
+        ScriptType: 'FilePath'
+        ScriptPath: "Script/10-deploy-Associar os NSG's às subnets.ps1"
         azurePowerShellVersion: 'LatestVersion'
 
-- stage: Configure_Security_and_Bastion
-  dependsOn: Configure_NSGs
-  jobs:
-  - job: Associate_NSGs_and_Deploy_Bastion
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $resourceGroup = "$(resourceGroup)"
-          $vNetName = "$(vNetName)"
-
-          $associations = @(
-            @{subnet="subnet-apg"; nsg="nsgApg"},
-            @{subnet="subnet-web"; nsg="nsgWeb"},
-            @{subnet="subnet-business"; nsg="nsgBusiness"},
-            @{subnet="subnet-data"; nsg="nsgData"},
-            @{subnet="subnet-adds"; nsg="nsgADDS"}
-          )
-
-          foreach ($assoc in $associations) {
-            az network vnet subnet update `
-              --vnet-name $vNetName `
-              --name $assoc.subnet `
-              --resource-group $resourceGroup `
-              --network-security-group $assoc.nsg
-          }
-
-          # Criar Bastion Host
-          $publicIpBastionName = "publicIpBastion"
-          $bastionName = "bastionNTier"
-          $location = "$(location)"
-
-          az network public-ip create `
-            --resource-group $resourceGroup `
-            --name $publicIpBastionName `
-            --sku Standard `
-            --location $location
-
-          az network bastion create `
-            --name $bastionName `
-            --public-ip-address $publicIpBastionName `
-            --resource-group $resourceGroup `
-            --vnet-name $vNetName `
-            --location $location
-        azurePowerShellVersion: 'LatestVersion'
-- stage: Deploy_Web_VMs
-  dependsOn: Configure_Security_and_Bastion
-  jobs:
-  - job: Create_Web_VMs
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $resourceGroup = "$(resourceGroup)"
-          $vNetName = "$(vNetName)"
-          $subnetWebName = "subnet-web"
-          $nsg = "nsgWeb"
-          $image = "Win2019Datacenter"
-          $login = "azureUser"
-          $senha = "P4ss0w0rd555*"
-
-          for ($i = 1; $i -lt 4 ; $i++) {
-            $vmWebName = "vmWebNTier$i"
-
-            az vm create `
-              --name $vmWebName `
-              --resource-group $resourceGroup `
-              --admin-password $senha `
-              --admin-username $login `
-              --image $image `
-              --no-wait `
-              --vnet-name $vNetName `
-              --subnet $subnetWebName `
-              --nsg $nsg `
-              --public-ip-address ""
-          }
-    - task: AzureCLI@2
-      name: Install_IIS_Remote
-      inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $resourceGroup = "$(resourceGroup)"
-          for ($i = 1; $i -lt 4 ; $i++) {
-            $v
-- stage: Deploy_AppGateway
-  dependsOn: Deploy_Web_VMs
-  jobs:
-  - job: Create_App_Gateway
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $resourceGroup = "$(resourceGroup)"
-          $location = "$(location)"
-          $vNetName = "$(vNetName)"
-          $subnetNameApg = "subnet-apg"
-          $publicIpApgName = "publicIpApg"
-          $apgName = "apgNTier"
-
-          # Endereços IP privados estáticos fictícios para exemplo
-          $ipVMWeb1 = "10.5.1.4"
-          $ipVMWeb2 = "10.5.1.5"
-          $ipVMWeb3 = "10.5.1.6"
-
-          az network public-ip create `
-            --resource-group $resourceGroup `
-            --name $publicIpApgName `
-            --sku Basic `
-            --location $location
-
-          az network application-gateway create `
-            --name $apgName `
-            --resource-group $resourceGroup `
-            --location $location `
-            --capacity 3 `
-            --sku Standard_Medium `
-            --vnet-name $vNetName `
-            --subnet $subnetNameApg `
-            --public-ip-address $publicIpApgName `
-            --http-settings-cookie-based-affinity Disabled `
-            --servers $ipVMWeb1 $ipVMWeb2 $ipVMWeb3
-- stage: Configure_DNS
-  dependsOn: Deploy_AppGateway
-  jobs:
-  - job: Create_DNS_Zone_and_Record
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Seu-Servico-Conexao'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $resourceGroup = "$(resourceGroup)"
-          $zoneName = "infinituscore.com" # Substitua pelo seu domínio real
-          $apgPublicIp = "<IP_PUBLICO_APG>" # Substitua manualmente ou obtenha via script
-
-          # Criar Zona DNS
-          az network dns zone create --resource-group $resourceGroup --name $zoneName
-
-          # Criar registro A apontando para o App Gateway
-          az network dns record-set a add-record `
-            --resource-group $resourceGroup `
-            --zone-name $zoneName `
-            --record-set-name "www" `
-            --ipv4-address $apgPublicIp
