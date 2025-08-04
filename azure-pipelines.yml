@@ -22,13 +22,13 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/01-deploy-Criar-grupo-de-recursos'
+        ScriptPath: 'Script/01-deploy-Criar-grupo-de-recursos.sh'
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/02-deploy-Criar-vnet-e-a-subnet-do-Application-Gateway'
+        ScriptPath: 'Script/02-deploy-Criar-vnet-e-a-subnet-do-Application-Gateway.sh'
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
