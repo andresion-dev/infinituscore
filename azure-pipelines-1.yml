@@ -19,42 +19,42 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/01-deploy-Criar grupo de recursos'
+        ScriptPath: 'Script/01-deploy-Criar-grupo-de-recursos'
      
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/02-deploy-Criar vnet e a subnet do Application Gateway'
+        ScriptPath: 'Script/02-deploy-Criar-vnet-e-a-subnet-do-Application-Gateway'
   
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/03-deploy-Criar subnet de gerenciamento'
+        ScriptPath: 'Script/03-deploy-Criar-subnet-de-gerenciamento'
   
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/04-deploy-Criar subnet Web'
+        ScriptPath: 'Script/04-deploy-Criar-subnet-Web'
      
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/05-deploy-Criar subnet Business'
+        ScriptPath: 'Script/05-deploy-Criar-subnet-Business'
     
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/06-deploy-Criar subnet Data'
+        ScriptPath: 'Script/06-deploy-Criar-subnet-Data'
      
   
     - task: AzureCLI@2
@@ -62,7 +62,7 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/07-deploy-Criar subnet Entra ID'
+        ScriptPath: 'Script/07-deploy-Criar-subnet-Entra-ID'
    
 
 - stage: Configure_NSGs
@@ -75,21 +75,21 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/08-deploy-Criar NSGs'
+        ScriptPath: 'Script/08-deploy-Criar-NSGs'
   
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/09-deploy-Criando regras para os NSG'
+        ScriptPath: 'Script/09-deploy-Criando-regras-para-os-NSG'
     
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: "Script/10-deploy-Associar os NSG's às subnets"
+        ScriptPath: "Script/10-deploy-Associar-os-NSGs-as-subnets"
      
 
 - stage: Deploy_Bastion
@@ -102,7 +102,7 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/11-deploy-Criar bastion host'
+        ScriptPath: 'Script/11-deploy-Criar-bastion-host'
      
 
 - stage: Deploy_Web_Layer
@@ -115,21 +115,21 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/12-deploy-Criar máquinas virtuais da camada web'
+        ScriptPath: 'Script/12-deploy-Criar-máquinas-virtuais-da-camada-web'
       
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: "Script/13-deploy-Criar ip's das máquinas da camada web para APPGW"
+        ScriptPath: "Script/13-deploy-Criar-IPs-das-máquinas-da-camada-web-para-APPGW"
        
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/14-deploy-Criar Application Gateway'
+        ScriptPath: 'Script/14-deploy-Criar-Application-Gateway'
 
 
 - stage: Configure_DNS
@@ -142,14 +142,14 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/15-deploy-Criar uma zona DNS'
+        ScriptPath: 'Script/15-deploy-Criar-uma-zona-DNS'
      
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/16-deploy-Criar um registro DNS'
+        ScriptPath: 'Script/16-deploy-Criar-um-registro-DNS'
     
 
 - stage: Enable_DDoS
@@ -162,7 +162,7 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/17-deploy-Criar DDoS'
+        ScriptPath: 'Script/17-deploy-Criar-DDoS'
   
 
 - stage: Deploy_Business_Layer
@@ -175,21 +175,21 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/18-deploy-Criar o recurso do balanceador de carga'
+        ScriptPath: 'Script/18-deploy-Criar-o-recurso-do-balanceador-de-carga'
        
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/19-deploy-Criar uma investigação de integridade'
+        ScriptPath: 'Script/19-deploy-Criar-uma-investigação-de-integridade'
   
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/20-deploy-Criar uma regra de balanceador de carga'
+        ScriptPath: 'Script/20-deploy-Criar-uma-regra-de-balanceador-de-carga'
      
 
     - task: AzureCLI@2
