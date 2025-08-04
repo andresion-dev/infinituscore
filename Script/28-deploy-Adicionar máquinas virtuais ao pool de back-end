@@ -1,3 +1,4 @@
+#!/bin/bash
 for ($i = 1; $i -lt 4 ; $i++)
 {
    $resourceGroup = "rg-ntier"
