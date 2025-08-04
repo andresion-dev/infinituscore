@@ -39,7 +39,7 @@ stages:
 
           Write-Host "Executando script de DNS com IP: $ip"
           & $targetScript $ip
-      displayName: 'Executar script 16 com IP parametrizado'
+  
 
     - task: AzureCLI@2
       inputs:
