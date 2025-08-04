@@ -4,6 +4,7 @@ trigger:
     - main
 pool:
   vmImage: ubuntu-latest
+  
 variables:
 - name: location
   value: 'eastus'
