@@ -13,5 +13,5 @@ az network dns record-set a add-record `
   --record-set-name $recordSetName `
   --ipv4-address $ip
 
-az network dns record-set a add-record -g $resourceGroup -z $zoneName -n www -a $ipaddress
+# az network dns record-set a add-record -g $resourceGroup -z $zoneName -n www -a $ipaddress
  
