@@ -1,5 +1,5 @@
 $resourceGroup = "rg-ntier"
-$dnsName = "comunidadecloudexpert.ga"
+$dnsName = "infinituscore.com"
 
 
 az network dns zone create -g $resourceGroup -n $dnsName
