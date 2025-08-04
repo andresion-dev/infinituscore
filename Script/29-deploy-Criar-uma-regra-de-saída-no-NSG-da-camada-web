@@ -1,3 +1,4 @@
+#!/bin/bash
 $resourceGroup = "rg-ntier"
 $lbName = "lbBusiness"
 
