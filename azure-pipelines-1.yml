@@ -39,3 +39,17 @@ stages:
           }
       displayName: 'Executar scripts autenticado via Azure CLI'
 
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          $scriptPath = "$(Build.SourcesDirectory)/Script"
+
+          $ip = "$(applicationGatewayIp)"
+          $targetScript = Join-Path $scriptPath "16-deploy-Criar um registro DNS.ps1"
+
+          Write-Host "Executando $($targetScript) com IP $ip"
+          & $targetScript $ip
+      displayName: 'Executar script de DNS com IP do Application Gateway'
