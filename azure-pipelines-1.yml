@@ -15,23 +15,46 @@ pool:
   vmImage: 'windows-latest'
 
 stages:
-- stage: ExecutarScripts
-  displayName: 'Executar Scripts PowerShell do Projeto'
+# -------------------
+- stage: CriarInfra
+  displayName: 'Provisionar Infraestrutura'
   jobs:
-  - job: ExecutarTodosScripts
-    displayName: 'Executar .ps1 da pasta Script/'
+  - job: ExecutarProvisionamento
     steps:
-
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
           Write-Host "======================"
-          Write-Host "Estrutura da árvore do repositório:"
+          Write-Host "Estrutura do repositório:"
           Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse | Select-Object FullName
           Write-Host "======================"
-      displayName: 'Listar estrutura completa do repositório'
+      displayName: 'Listar estrutura do repositório'
 
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          $scriptPath = "$(Build.SourcesDirectory)/Script"
+          $scripts = Get-ChildItem $scriptPath -Filter *.ps1 | Where-Object {
+            $_.Name -notlike "16-deploy-Criar um registro DNS.ps1"
+          } | Sort-Object Name
+
+          foreach ($script in $scripts) {
+              Write-Host "Executando $($script.Name)..."
+              & $script.FullName
+          }
+      displayName: 'Executar scripts de infraestrutura'
+
+# -------------------
+- stage: RegistrarDNS
+  displayName: 'Criar registro DNS com IP dinâmico'
+  dependsOn: CriarInfra
+  jobs:
+  - job: RegistrarDnsComIP
+    steps:
     - task: AzureCLI@2
       name: GetAppGwIp
       inputs:
@@ -39,15 +62,22 @@ stages:
         scriptType: 'ps'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          $publicIp = az network public-ip show `
-            --resource-group rg-ntier `
-            --name publicIpApg `
-            --query "ipAddress" `
-            --output tsv
-          Write-Host "##vso[task.setvariable variable=applicationGatewayIp]$publicIp"
-          Write-Host "IP público capturado: $publicIp"
-      displayName: 'Obter IP público do Application Gateway'
-
+          try {
+            $publicIp = az network public-ip show `
+              --resource-group rg-ntier `
+              --name publicIpApg `
+              --query "ipAddress" `
+              --output tsv
+            if (-not $publicIp) {
+              throw "IP não encontrado. Verifique se 'publicIpApg' foi criado."
+            }
+            Write-Host "##vso[task.setvariable variable=applicationGatewayIp]$publicIp"
+            Write-Host "IP público capturado: $publicIp"
+          } catch {
+            Write-Host "Erro ao capturar IP: $_"
+            exit 1
+          }
+      displayName: 'Capturar IP do Application Gateway'
 
     - task: AzureCLI@2
       inputs:
@@ -61,21 +91,7 @@ stages:
             -resourceGroup "$(dnsResourceGroup)" `
             -zoneName "$(dnsZoneName)" `
             -recordSetName "$(dnsRecordSet)"
-      displayName: 'Criar registro DNS com IP do App Gateway'
+      displayName: 'Criar registro DNS com IP capturado'
 
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'AzureServiceConnection'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $scriptPath = "$(Build.SourcesDirectory)/Script"
-          $scripts = Get-ChildItem $scriptPath -Filter *.ps1 | Where-Object { $_.Name -notlike "16-deploy-Criar um registro DNS.ps1" } | Sort-Object Name
-
-          foreach ($script in $scripts) {
-              Write-Host "Executando $($script.Name)..."
-              & $script.FullName
-          }
-      displayName: 'Executar os demais scripts autenticados'
 
 
