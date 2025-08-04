@@ -41,12 +41,13 @@ stages:
         inlineScript: |
           $publicIp = az network public-ip show `
             --resource-group rg-ntier `
-            --name appGatewayPublicIp `
+            --name publicIpApg `
             --query "ipAddress" `
             --output tsv
           Write-Host "##vso[task.setvariable variable=applicationGatewayIp]$publicIp"
           Write-Host "IP público capturado: $publicIp"
       displayName: 'Obter IP público do Application Gateway'
+
 
     - task: AzureCLI@2
       inputs:
