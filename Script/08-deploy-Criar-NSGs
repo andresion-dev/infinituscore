@@ -1,4 +1,4 @@
-#!/bin/bash
+
 $resourceGroup = "rg-ntier"
 $location = "eastus"
 
