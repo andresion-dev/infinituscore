@@ -197,21 +197,21 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/21-deploy-Criar máquinas virtuais da camada Business'
+        ScriptPath: 'Script/21-deploy-Criar-máquinas-virtuais-da-camada-Business'
        
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/22-deploy-Adicionar VMs ao pool de back-end'
+        ScriptPath: 'Script/22-deploy-Adicionar-VMs-ao-pool-de-back-end'
         
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/23-deploy-Criar uma regra de saída no NSG LB Business'
+        ScriptPath: 'Script/23-deploy-Criar-uma-regra-de-saída-no-NSG-LB-Business'
         
 - stage: Deploy_Data_Layer
   dependsOn: Deploy_Business_Layer
@@ -223,50 +223,71 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/24-deploy-Criar o recurso de LB da camada de Banco de Dados'
-        
+        ScriptPath: 'Script/24-deploy-Criar-o-recurso-de-LB-da-camada-de-Banco-de-Dados'
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/25-deploy-Criar a investigação de integridade'
-       
+        ScriptPath: 'Script/25-deploy-Criar-a-investigação-de-integridade'
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/26-deploy-Criar uma regra de LB'
-        
+        ScriptPath: 'Script/26-deploy-Criar-uma-regra-de-LB'
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/30-deploy-Criar Azure LB da camada de Banco de dados'
+        ScriptPath: 'Script/27-deploy-Criar-VM-da-camada-Business'
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptLocation: 'scriptPath'
+        scriptType: 'bash'
+        ScriptPath: 'Script/28-deploy-Adicionar-máquinas-virtuais-ao-pool-de-back-end'
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptLocation: 'scriptPath'
+        scriptType: 'bash'
+        ScriptPath: 'Script/29-deploy-Criar-uma-regra-de-saída-no-NSG-da-camada-web'
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptLocation: 'scriptPath'
+        scriptType: 'bash'
+        ScriptPath: 'Script/30-deploy-Criar-Azure-LB-da-camada-de-Banco-de-dados'
       
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/31-deploy-Criar a investigação de integridade'
+        ScriptPath: 'Script/31-deploy-Criar-a-investigacao-de-integridade'
        
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/32-deploy-Criar uma regra de balanceador de carga'
-   
+        ScriptPath: 'Script/32-deploy-Criar-uma-regra-de-balanceador-de-carga'
+       
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureServiceConnection'
+        scriptLocation: 'scriptPath'
+        scriptType: 'bash'
+        ScriptPath: 'Script/33-deploy-Criar-uma-conta-de-armazenamento'
 
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/34-deploy-Criar VMs da camada de Banco de Dados'
+        ScriptPath: 'Script/34-deploy-Criar-VMs-da-camada-de-Banco-de-Dados'
         
 
     - task: AzureCLI@2
@@ -274,14 +295,14 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/35-deploy-Adicionar VMs ao pool de back-end'
+        ScriptPath: 'Script/35-deploy-Adicionar-VMs-ao-pool-de-back-end'
       
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/36-deploy-Criar uma regra de saída no NSG da camada Bussiness'
+        ScriptPath: 'Script/36-deploy-Criar-uma-regra-de-saída-no-NSG-da-camada-Bussiness'
       
 - stage: Deploy_ADDS
   dependsOn: Deploy_Data_Layer
@@ -293,5 +314,5 @@ stages:
         azureSubscription: 'AzureServiceConnection'
         scriptLocation: 'scriptPath'
         scriptType: 'bash'
-        ScriptPath: 'Script/37-deploy-Criar máquinas virtuais da camada ADDS'
+        ScriptPath: 'Script/37-deploy-Criar-máquinas-virtuais-da-camada-ADDS'
        
