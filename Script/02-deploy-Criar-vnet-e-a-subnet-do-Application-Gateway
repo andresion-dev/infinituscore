@@ -1,4 +1,3 @@
- #!/bin/bash
  $resourceGroup = "rg-ntier"
  $location = "eastus"
  $vNetName = "vnet-ntier"
