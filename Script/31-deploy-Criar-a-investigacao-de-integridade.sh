@@ -1,13 +1,8 @@
 #!/bin/bash
-$resourceGroup = "rg-ntier"
-$vNetName = "vnet-ntier"
-$subnetDataName = "subnet-data"
-$lbName = "lbData"
-$probeLbDataName = "healthProbeData"
 
+resourceGroup = "rg-ntier"
+vNetName = "vnet-ntier"
+subnetDataName = "subnet-data"
+lbName = "lbData"
+probeLbDataName = "healthProbeData"
 az network lb probe create `
---resource-group $resourceGroup `
---lb-name $lbName `
---name $probeLbDataName `
---protocol tcp `
---port 80

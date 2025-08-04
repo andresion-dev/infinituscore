@@ -1,4 +1,4 @@
 #!/bin/bash
-$name = "rg-ntier"
 
+name = "rg-ntier"
 az group delete --name $name

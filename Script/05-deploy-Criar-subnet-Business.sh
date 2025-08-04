@@ -1,7 +1,7 @@
-$resourceGroup = "rg-ntier"
-$vNetName = "vnet-ntier"
-$subnetBusinessName = "subnet-business"
-$subnetPrefixBusiness = "10.5.2.0/24"
+#!/bin/bash
 
-echo "Creating subnet Bussiness"
+resourceGroup = "rg-ntier"
+vNetName = "vnet-ntier"
+subnetBusinessName = "subnet-business"
+subnetPrefixBusiness = "10.5.2.0/24"
 az network vnet subnet create --address-prefix $subnetPrefixBusiness --name $subnetBusinessName --resource-group $resourceGroup --vnet-name $vNetName
